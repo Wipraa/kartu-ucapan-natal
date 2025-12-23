@@ -1,5 +1,8 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&family=Great+Vibes&display=swap');
 
+@source "./src/**/*.{vue,ts,jsx,tsx}";
+@source "./index.html";
 @theme {
   --color-night: #0a1128;
   --color-gold: #d4af37;
@@ -10,7 +13,60 @@
   --color-red: #c41e3a;
   --color-green: #165b33;
 
-  /* Contoh font custom */
-  --font-family-display: 'Cormorant Garamond', serif;
-  --font-family-body: 'Montserrat', sans-serif;
+  --font-display: 'Mountains of Christmas', cursive;
+  --font-body: 'Great Vibes', cursive;
+}
+
+/* Snowfall custom class */
+.bg-snowfall {
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(2px 2px at 60% 70%, rgba(255, 255, 255, 0.2), transparent),
+    radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 80% 10%, rgba(255, 255, 255, 0.2), transparent);
+  background-size:
+    200px 200px,
+    300px 300px,
+    150px 150px,
+    250px 250px;
+  background-position:
+    0 0,
+    40px 60px,
+    130px 270px,
+    70px 100px;
+  animation: snowfall 20s linear infinite;
+}
+
+@keyframes snowfall {
+  0% {
+    background-position:
+      0 0,
+      40px 60px,
+      130px 270px,
+      70px 100px;
+  }
+  100% {
+    background-position:
+      0 200px,
+      40px 260px,
+      130px 470px,
+      70px 300px;
+  }
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: scale(1.02);
 }
