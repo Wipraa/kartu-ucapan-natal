@@ -38,7 +38,7 @@ const router = createRouter({
 })
 
 router.afterEach((to) => {
-  const { t, locale } = i18n.global
+  const { t } = i18n.global
 
   // Title
   if (to.meta.titleKey) {
