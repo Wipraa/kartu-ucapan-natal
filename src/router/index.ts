@@ -4,6 +4,20 @@ import HomePage from '@/pages/HomePage.vue'
 import CardPage from '@/pages/CardPage.vue'
 import ChristmasPage from '@/pages/ChristmasPage.vue'
 
+export function updateMeta(to = router.currentRoute.value) {
+  const { t } = i18n.global
+
+  if (to.meta.titleKey) {
+    document.title = t(to.meta.titleKey as string)
+  }
+
+  const description = document.querySelector('meta[name="description"]') as HTMLMetaElement
+
+  if (description && to.meta.descKey) {
+    description.setAttribute('content', t(to.meta.descKey as string))
+  }
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -38,32 +52,18 @@ const router = createRouter({
 })
 
 router.afterEach((to) => {
+  updateMeta(to)
+
   const { t } = i18n.global
 
-  // Title
   if (to.meta.titleKey) {
     document.title = t(to.meta.titleKey as string)
-  } else {
-    document.title = 'Christmas Card'
   }
 
-  // Description
   const description = document.querySelector('meta[name="description"]') as HTMLMetaElement
 
   if (description && to.meta.descKey) {
     description.setAttribute('content', t(to.meta.descKey as string))
-  }
-})
-
-router.afterEach((to) => {
-  // Title
-  document.title = (to.meta.title as string) || 'Christmas Card'
-
-  // Description
-  const description = document.querySelector('meta[name="description"]') as HTMLMetaElement
-
-  if (description && to.meta.description) {
-    description.setAttribute('content', to.meta.description as string)
   }
 })
 

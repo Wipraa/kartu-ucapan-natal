@@ -3,13 +3,20 @@ import fr from '@/locales/fr'
 import en from '@/locales/en'
 import id from '@/locales/id'
 
+const messages = {
+  en,
+  id,
+  fr,
+}
+
+const savedLocale = typeof window !== 'undefined' ? localStorage.getItem('preferredLanguage') : null
+
+const defaultLocale = savedLocale || 'en'
+
 export const i18n = createI18n({
-  legacy: false, // wajib untuk Composition API
-  locale: 'id', // default language
+  legacy: false,
+  globalInjection: true,
+  locale: defaultLocale,
   fallbackLocale: 'en',
-  messages: {
-    en,
-    id,
-    fr,
-  },
+  messages,
 })

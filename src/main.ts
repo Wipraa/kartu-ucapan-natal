@@ -1,29 +1,19 @@
 import { createApp, watch } from 'vue'
 import App from './App.vue'
-import router from './router'
 import './assets/css/main.css'
+import router, { updateMeta } from './router'
 import { i18n } from './utils/i18n'
 
 const app = createApp(App)
 
+// ✅ HANYA untuk html lang
 watch(
   () => i18n.global.locale.value,
-  () => {
-    const currentRoute = router.currentRoute.value
-    const { t } = i18n.global
-
-    // Update title
-    if (currentRoute.meta.titleKey) {
-      document.title = t(currentRoute.meta.titleKey as string)
-    }
-
-    // Update description
-    const description = document.querySelector('meta[name="description"]') as HTMLMetaElement
-
-    if (description && currentRoute.meta.descKey) {
-      description.setAttribute('content', t(currentRoute.meta.descKey as string))
-    }
+  (lang) => {
+    document.documentElement.lang = lang
+    updateMeta()
   },
+  { immediate: true },
 )
 
 app.use(router)
