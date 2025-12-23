@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  --color-night: #0a1128;
+  --color-gold: #d4af37;
+  --color-ivory: #fffef7;
+  --color-navy: #1e2749;
+  --color-accent: #8b5a3c;
+  --color-snow: #e8f4f8;
+  --color-red: #c41e3a;
+  --color-green: #165b33;
+
+  /* Contoh font custom */
+  --font-family-display: 'Cormorant Garamond', serif;
+  --font-family-body: 'Montserrat', sans-serif;
+}
