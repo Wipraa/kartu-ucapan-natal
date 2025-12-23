@@ -13,24 +13,25 @@ const { t, tm } = useI18n()
 const currentPage = ref(1)
 const totalPages = 4
 
-// ✅ Ambil ARRAY dari i18n (WAJIB tm)
 const pages = computed<Page[]>(() => {
   return tm('pages') as Page[]
 })
 
+/**
+ * ✅ Ambil page aktif dengan aman
+ */
+const activePage = computed<Page | null>(() => {
+  return pages.value[currentPage.value - 1] ?? null
+})
+
 const nextPage = () => {
-  if (currentPage.value < totalPages) {
-    currentPage.value++
-  }
+  if (currentPage.value < totalPages) currentPage.value++
 }
 
 const prevPage = () => {
-  if (currentPage.value > 1) {
-    currentPage.value--
-  }
+  if (currentPage.value > 1) currentPage.value--
 }
 
-// Expose ke parent (NavButtons)
 defineExpose({
   nextPage,
   prevPage,
@@ -59,32 +60,24 @@ defineExpose({
         :style="{ zIndex: totalPages - Math.abs(currentPage - n) }"
       >
         <!-- Isi halaman -->
-        <div v-if="currentPage === n" class="relative w-full max-w-lg text-night">
-          <!-- Nomor halaman -->
-          <div class="absolute bottom-6 right-10 text-sm font-display text-accent/60">
-            {{ n }}
-          </div>
-
-          <!-- Judul -->
+        <div v-if="activePage" class="relative w-full max-w-lg text-night">
           <h2 class="mb-12 text-center font-display tracking-wide text-4xl md:text-5xl text-gold">
-            {{ t(pages[n - 1].title) }}
+            {{ t(activePage.title) }}
           </h2>
 
-          <!-- Paragraf -->
           <div class="space-y-8 text-lg leading-relaxed text-justify text-navy">
-            <p v-for="key in pages[n - 1].texts" :key="key">
+            <p v-for="key in activePage.texts" :key="key">
               {{ t(key) }}
             </p>
 
             <p
-              v-if="pages[n - 1].closing"
+              v-if="activePage.closing"
               class="mt-12 text-center italic text-xl font-display text-gold"
             >
-              {{ t(pages[n - 1].closing!) }}
+              {{ t(activePage.closing) }}
             </p>
           </div>
 
-          <!-- Ornamental line -->
           <div class="relative mx-auto my-12 h-0.5 w-20 bg-gold">
             <span class="absolute -left-4 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-gold" />
             <span class="absolute -right-4 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-gold" />
